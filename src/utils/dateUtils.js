@@ -14,3 +14,9 @@ export function isValidDate(str) {
   const date = new Date(y, m - 1, d);
   return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
 }
+
+// A task is "today's task" if today falls between its start and due date (inclusive)
+export function isTodayTask(task) {
+  const today = getTodayString();
+  return task.startDate <= today && today <= task.dueDate;
+}
