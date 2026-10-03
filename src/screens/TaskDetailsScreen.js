@@ -20,7 +20,7 @@ export default function TaskDetailsScreen({ navigation, route }) {
 
   if (!task) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100 p-6">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
         <Ionicons name="alert-circle-outline" size={48} color="#9ca3af" />
         <Text className="mt-2 text-gray-500">Task not found.</Text>
       </View>
@@ -44,13 +44,13 @@ export default function TaskDetailsScreen({ navigation, route }) {
   }
 
   return (
-    <ScrollView className="flex-1 bg-gray-100" contentContainerClassName="p-4 pb-10">
+    <ScrollView className="flex-1 bg-gray-100 dark:bg-gray-900" contentContainerClassName="p-4 pb-10">
       <View className="rounded-xl bg-white p-5 shadow-sm">
         <Text className="mb-1 text-xl font-bold text-gray-900">{task.title}</Text>
         <View
-          className={`mb-5 self-start rounded-full px-3 py-1 ${done ? 'bg-green-100' : 'bg-amber-100'}`}
+          className={`mb-5 self-start rounded-full px-3 py-1 ${done ? 'bg-green-100 dark:bg-green-900' : 'bg-amber-100 dark:bg-amber-900'}`}
         >
-          <Text className={`text-xs font-medium ${done ? 'text-green-700' : 'text-amber-700'}`}>
+          <Text className={`text-xs font-medium ${done ? 'text-green-700 dark:text-green-300' : 'text-amber-700 dark:text-amber-300'}`}>
             {task.status}
           </Text>
         </View>

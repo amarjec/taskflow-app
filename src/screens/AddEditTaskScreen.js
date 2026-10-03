@@ -60,18 +60,18 @@ export default function AddEditTaskScreen({ navigation, route }) {
   // Edit mode but the task doesn't exist (e.g. it was deleted)
   if (isEdit && !existing) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100 p-6">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
         <Text className="text-gray-500">Task not found.</Text>
       </View>
     );
   }
 
   const inputClass = (name) =>
-    `rounded-xl border bg-white px-3 py-3 ${errors[name] ? 'border-red-500' : 'border-gray-200'}`;
+    `rounded-xl border bg-white px-3 py-3 text-gray-900 dark:text-gray-100 ${errors[name] ? 'border-red-500' : 'border-gray-200'}`;
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-gray-100"
+      className="flex-1 bg-gray-100 dark:bg-gray-900"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView className="flex-1" contentContainerClassName="p-4 pb-10" keyboardShouldPersistTaps="handled">
@@ -79,6 +79,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
           <TextInput
             className={inputClass('title')}
             placeholder="e.g. Prepare project proposal"
+            placeholderTextColor="#9ca3af"
             value={form.title}
             onChangeText={(v) => setField('title', v)}
           />
@@ -88,6 +89,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
           <TextInput
             className={`${inputClass('description')} h-24`}
             placeholder="Optional details"
+            placeholderTextColor="#9ca3af"
             value={form.description}
             onChangeText={(v) => setField('description', v)}
             multiline
@@ -103,6 +105,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
           <TextInput
             className={inputClass('category')}
             placeholder="Type or pick one below"
+            placeholderTextColor="#9ca3af"
             value={form.category}
             onChangeText={(v) => setField('category', v)}
           />
@@ -111,9 +114,9 @@ export default function AddEditTaskScreen({ navigation, route }) {
               <Pressable
                 key={c}
                 onPress={() => setField('category', c)}
-                className="mb-2 mr-2 rounded-full bg-indigo-50 px-3 py-1"
+                className="mb-2 mr-2 rounded-full bg-indigo-50 dark:bg-indigo-900 px-3 py-1"
               >
-                <Text className="text-xs text-indigo-700">{c}</Text>
+                <Text className="text-xs text-indigo-700 dark:text-indigo-300">{c}</Text>
               </Pressable>
             ))}
           </View>
@@ -123,6 +126,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
           <TextInput
             className={inputClass('startDate')}
             placeholder="2026-10-02"
+            placeholderTextColor="#9ca3af"
             value={form.startDate}
             onChangeText={(v) => setField('startDate', v)}
             keyboardType="numbers-and-punctuation"
@@ -134,6 +138,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
           <TextInput
             className={inputClass('dueDate')}
             placeholder="2026-10-05"
+            placeholderTextColor="#9ca3af"
             value={form.dueDate}
             onChangeText={(v) => setField('dueDate', v)}
             keyboardType="numbers-and-punctuation"

@@ -99,7 +99,7 @@ export default function BulkUploadScreen({ navigation }) {
   }
 
   return (
-    <ScrollView className="flex-1 bg-gray-100" contentContainerClassName="p-4 pb-10">
+    <ScrollView className="flex-1 bg-gray-100 dark:bg-gray-900" contentContainerClassName="p-4 pb-10">
       {/* Pick a file */}
       <View className="rounded-xl bg-white p-5">
         <Text className="font-semibold text-gray-900">Import tasks from CSV</Text>
@@ -120,9 +120,9 @@ export default function BulkUploadScreen({ navigation }) {
 
       {/* Error state */}
       {fileError && (
-        <View className="mt-4 flex-row items-center rounded-xl bg-red-50 p-4">
+        <View className="mt-4 flex-row items-center rounded-xl bg-red-50 dark:bg-red-900 p-4">
           <Ionicons name="alert-circle" size={22} color="#dc2626" />
-          <Text className="ml-2 flex-1 text-red-700">{fileError}</Text>
+          <Text className="ml-2 flex-1 text-red-700 dark:text-red-300">{fileError}</Text>
         </View>
       )}
 
@@ -142,9 +142,9 @@ export default function BulkUploadScreen({ navigation }) {
       {report && (
         <>
           <View className="-mx-1 mt-4 flex-row">
-            <Tile label="Valid" value={report.validTasks.length} bg="bg-green-100" text="text-green-700" />
-            <Tile label="Invalid" value={report.errors.length} bg="bg-red-100" text="text-red-700" />
-            <Tile label="Duplicates" value={report.duplicates.length} bg="bg-amber-100" text="text-amber-700" />
+            <Tile label="Valid" value={report.validTasks.length} bg="bg-green-100 dark:bg-green-900" text="text-green-700 dark:text-green-300" />
+            <Tile label="Invalid" value={report.errors.length} bg="bg-red-100 dark:bg-red-900" text="text-red-700 dark:text-red-300" />
+            <Tile label="Duplicates" value={report.duplicates.length} bg="bg-amber-100 dark:bg-amber-900" text="text-amber-700 dark:text-amber-300" />
           </View>
 
           <IssueList title="Invalid rows" items={report.errors} color="text-red-600" />

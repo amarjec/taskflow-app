@@ -10,7 +10,7 @@ export default function DashboardScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 ">
         <ActivityIndicator size="large" color="#4f46e5" />
       </View>
     );
@@ -18,7 +18,7 @@ export default function DashboardScreen({ navigation }) {
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100 p-6">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
         <Text className="text-center text-red-600">{error}</Text>
       </View>
     );
@@ -31,14 +31,14 @@ export default function DashboardScreen({ navigation }) {
   const todayTasks = tasks.filter(isTodayTask);
 
   return (
-    <View className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       <ScrollView contentContainerClassName="p-4 pb-28">
         {/* 2x2 grid: each card is w-1/2, the negative margin cancels the edge padding */}
         <View className="-mx-1.5 flex-row flex-wrap">
-          <StatCard title="Total tasks" value={total} icon="list" color="#4f46e5" bg="bg-indigo-100" />
-          <StatCard title="Completed" value={completed} icon="checkmark-circle" color="#16a34a" bg="bg-green-100" />
-          <StatCard title="Pending" value={pending} icon="time" color="#d97706" bg="bg-amber-100" />
-          <StatCard title="Today's tasks" value={todayTasks.length} icon="today" color="#0284c7" bg="bg-sky-100" />
+          <StatCard title="Total tasks" value={total} icon="list" color="#4f46e5" bg="bg-indigo-100 dark:bg-indigo-900" />
+          <StatCard title="Completed" value={completed} icon="checkmark-circle" color="#16a34a" bg="bg-green-100 dark:bg-green-900" />
+          <StatCard title="Pending" value={pending} icon="time" color="#d97706" bg="bg-amber-100 dark:bg-amber-900" />
+          <StatCard title="Today's tasks" value={todayTasks.length} icon="today" color="#0284c7" bg="bg-sky-100 dark:bg-sky-900" />
         </View>
 
         {/* Bulk upload entry */}

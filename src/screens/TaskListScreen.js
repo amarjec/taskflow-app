@@ -35,7 +35,7 @@ export default function TaskListScreen({ navigation }) {
   // ---- Loading and error states ----
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900">
         <ActivityIndicator size="large" color="#4f46e5" />
       </View>
     );
@@ -43,7 +43,7 @@ export default function TaskListScreen({ navigation }) {
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100 p-6">
+      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
         <Text className="text-center text-red-600">{error}</Text>
       </View>
     );
@@ -51,13 +51,14 @@ export default function TaskListScreen({ navigation }) {
 
   // ---- Main UI ----
   return (
-    <View className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Search box */}
       <View className="mx-4 mt-4 flex-row items-center rounded-xl bg-white px-3">
         <Ionicons name="search" size={18} color="#9ca3af" />
         <TextInput
-          className="ml-2 flex-1 py-3"
+          className="ml-2 flex-1 py-3 text-gray-900 dark:text-gray-100"
           placeholder="Search tasks..."
+          placeholderTextColor="#9ca3af"
           value={search}
           onChangeText={setSearch}
         />
