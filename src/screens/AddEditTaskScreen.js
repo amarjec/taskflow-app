@@ -78,7 +78,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
         <FormField label="Title *" error={errors.title}>
           <TextInput
             className={inputClass('title')}
-            placeholder="e.g. Prepare project proposal"
+            placeholder="e.g. Finish assignment"
             placeholderTextColor="#9ca3af"
             value={form.title}
             onChangeText={(v) => setField('title', v)}
