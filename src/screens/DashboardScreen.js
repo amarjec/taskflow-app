@@ -96,7 +96,7 @@ export default function DashboardScreen({ navigation }) {
       {/* Floating add button */}
       <Pressable
         onPress={() => navigation.navigate('AddEditTask')}
-        className="absolute bottom-16 right-6 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
+        className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
       >
         <Ionicons name="add" size={30} color="white" />
       </Pressable>
