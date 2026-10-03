@@ -9,7 +9,7 @@ export default function TaskCard({ task, onPress, onToggle, onDelete }) {
   const overdue = isOverdue(task)
 
   return (
-    <Pressable onPress={onPress} className="mb-3 flex-row items-center rounded-xl bg-white p-4 shadow-sm">
+    <Pressable onPress={onPress} className="flex-row items-center rounded-xl bg-white p-4 shadow-sm">
       <Pressable onPress={onToggle} hitSlop={10} className="mr-3">
         <Ionicons name={done ? 'checkbox' : 'square-outline'} size={26} color={done ? '#16a34a' : '#9ca3af'} />
       </Pressable>

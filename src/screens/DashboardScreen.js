@@ -82,12 +82,13 @@ export default function DashboardScreen({ navigation }) {
           </View>
         ) : (
           todayTasks.slice(0, 3).map((task) => (
+            <View key={task.id} className="mb-3">
             <TaskCard
-              key={task.id}
               task={task}
               onPress={() => navigation.navigate('TaskDetails', { taskId: task.id })}
               onToggle={() => toggleComplete(task.id)}
             />
+            </View>
           ))
         )}
       </ScrollView>

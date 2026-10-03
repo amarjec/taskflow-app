@@ -1,6 +1,7 @@
 import "./global.css"
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import DashboardScreen from './src/screens/DashboardScreen';
 import TaskListScreen from './src/screens/TaskListScreen';
@@ -53,10 +54,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <TaskProvider>
-        <AppContent />
-      </TaskProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider>
+        <TaskProvider>
+          <AppContent />
+        </TaskProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

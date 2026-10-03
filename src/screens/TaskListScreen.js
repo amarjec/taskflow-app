@@ -2,7 +2,8 @@ import { useState, useMemo } from 'react';
 import { View, Text, FlatList, TextInput, Pressable, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTasks } from '../context/TaskContext';
-import TaskCard from '../components/TaskCard';
+// import TaskCard from '../components/TaskCard';
+import SwipeableTaskCard from '../components/SwipeableTaskCard';
 
 const FILTERS = ['All', 'Pending', 'Completed'];
 
@@ -138,11 +139,11 @@ export default function TaskListScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         contentContainerClassName="px-4 pb-24"
         renderItem={({ item }) => (
-          <TaskCard
-            task={item}
-            onPress={() => navigation.navigate('TaskDetails', { taskId: item.id })}
-            onToggle={() => toggleComplete(item.id)}
-            onDelete={() => confirmDelete(item)}
+        <SwipeableTaskCard 
+          task={item}
+          onPress={() => navigation.navigate('TaskDetails', { taskId: item.id })}
+          onToggle={() => toggleComplete(item.id)}
+          onDelete={() => confirmDelete(item)}
           />
         )}
         ListEmptyComponent={
