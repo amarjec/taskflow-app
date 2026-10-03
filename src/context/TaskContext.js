@@ -17,18 +17,25 @@ export function TaskProvider({ children }) {
 
   // 1. Load saved tasks once at startup
   useEffect(() => {
+    let cancelled = false;
+
     async function load() {
       try {
         const saved = await AsyncStorage.getItem(STORAGE_KEY);
+        if (cancelled) return;
         if (saved) setTasks(JSON.parse(saved));
         setHydrated(true);
       } catch (e) {
-        setError('Could not load tasks');
+        if (!cancelled) setError('Could not load tasks');
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
+
     load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // 2. Save whenever tasks change (but never before loading finished)

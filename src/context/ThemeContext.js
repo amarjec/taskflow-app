@@ -19,11 +19,15 @@ export function ThemeProvider({ children }) {
 
   // On startup, restore the saved choice (if there is one)
   useEffect(() => {
+    let cancelled = false;
     AsyncStorage.getItem(THEME_KEY)
       .then((saved) => {
-        if (saved === 'light' || saved === 'dark') setColorScheme(saved);
+        if (!cancelled && (saved === 'light' || saved === 'dark')) setColorScheme(saved);
       })
-      .catch(() => {}); // if loading fails, just keep the system theme
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   function setTheme(mode) {
