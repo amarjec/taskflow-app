@@ -14,14 +14,20 @@
         "backgroundColor": "#E6F4FE",
         "backgroundImage": "./assets/icon.png"
       },
-      "package": "com.agrawalsapps.taskflow" 
+      "package": "com.agrawalsapps.taskflow"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "userInterfaceStyle": "automatic"
     },
     "plugins": [
-      "expo-sharing"
-    ]
+      "expo-sharing",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5d21aa18-30bf-4506-9392-f035f53421e0"
+      }
+    }
   }
 }
