@@ -124,7 +124,7 @@ export default function TaskListScreen({ navigation, route }) {
       {dateFilter && (
         <Pressable
           onPress={() => setDateFilter(null)}
-          className="mx-4 mt-3 flex-row items-center self-start rounded-full bg-indigo-100 px-3 py-1 dark:bg-indigo-900"
+          className="mx-4 mt-3 flex-row items-center self-start rounded-full bg-indigo-100 px-3 py-1 dark:bg-indigo-500/20"
         >
           <Text className="mr-1 text-xs font-medium text-indigo-700 dark:text-indigo-200">
             Due on {formatDisplayDate(dateFilter)}
@@ -159,7 +159,7 @@ export default function TaskListScreen({ navigation, route }) {
             key={s.key}
             onPress={() => setSortKey(s.key)}
             className={`mr-2 rounded-full px-3 py-1 ${
-              sortKey === s.key ? 'bg-indigo-100 dark:bg-indigo-900' : 'bg-gray-200 dark:bg-gray-700'
+              sortKey === s.key ? 'bg-indigo-100 dark:bg-indigo-500/20' : 'bg-gray-200 dark:bg-gray-700'
             }`}
           >
             <Text

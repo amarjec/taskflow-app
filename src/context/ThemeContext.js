@@ -7,6 +7,15 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const { colorScheme, setColorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  // Icon colors can't use className, so provide them here (lighter tones on dark surfaces)
+  const colors = {
+    primary: isDark ? '#818cf8' : '#4f46e5',
+    muted: '#9ca3af',
+    danger: isDark ? '#f87171' : '#ef4444',
+    success: isDark ? '#4ade80' : '#16a34a',
+  };
 
   // On startup, restore the saved choice (if there is one)
   useEffect(() => {
@@ -23,7 +32,7 @@ export function ThemeProvider({ children }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ isDark: colorScheme === 'dark', setTheme }}>
+    <ThemeContext.Provider value={{ isDark: colorScheme === 'dark', setTheme, colors }}>
       {children}
     </ThemeContext.Provider>
   );

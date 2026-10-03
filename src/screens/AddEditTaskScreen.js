@@ -130,7 +130,7 @@ export default function AddEditTaskScreen({ navigation, route }) {
               <Pressable
                 key={c}
                 onPress={() => setField('category', c)}
-                className="mb-2 mr-2 rounded-full bg-indigo-50 px-3 py-1 dark:bg-indigo-900"
+                className="mb-2 mr-2 rounded-full bg-indigo-50 px-3 py-1 dark:bg-indigo-500/20"
               >
                 <Text className="text-xs text-indigo-700 dark:text-indigo-300">{c}</Text>
               </Pressable>

@@ -36,15 +36,15 @@ export default function DashboardScreen({ navigation }) {
       <ScrollView contentContainerClassName="p-4 pb-28">
         {/* 2x2 grid: each card is w-1/2, the negative margin cancels the edge padding */}
         <View className="-mx-1.5 flex-row flex-wrap">
-          <StatCard title="Total tasks" value={total} icon="list" color="#4f46e5" bg="bg-indigo-100 dark:bg-indigo-900" />
-          <StatCard title="Completed" value={completed} icon="checkmark-circle" color="#16a34a" bg="bg-green-100 dark:bg-green-900" />
-          <StatCard title="Pending" value={pending} icon="time" color="#d97706" bg="bg-amber-100 dark:bg-amber-900" />
-          <StatCard title="Today's tasks" value={todayTasks.length} icon="today" color="#0284c7" bg="bg-sky-100 dark:bg-sky-900" />
+          <StatCard title="Total tasks" value={total} icon="list" tone="indigo" />
+          <StatCard title="Completed" value={completed} icon="checkmark-circle" tone="green" />
+          <StatCard title="Pending" value={pending} icon="time" tone="amber" />
+          <StatCard title="Today's tasks" value={todayTasks.length} icon="today" tone="sky" />
         </View>
         {overdueCount > 0 && (
           <Pressable
             onPress={() => navigation.navigate('TaskList', { filter: 'Overdue' })}
-            className="mt-3 flex-row items-center rounded-xl bg-red-100 p-3 dark:bg-red-900">
+            className="mt-3 flex-row items-center rounded-xl bg-red-100 p-3 dark:bg-red-500/20">
               <Ionicons name="alert-circle" size={22} color="#dc2626" />
               <Text className="ml-2 flex-1 text-red-700 dark:text-red-200">
                 {overdueCount} overdue {overdueCount === 1 ? 'task' : 'tasks'}
@@ -67,16 +67,16 @@ export default function DashboardScreen({ navigation }) {
 
         {/* Today's tasks preview */}
         <View className="mb-2 mt-6 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900">Today's tasks</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">Today's tasks</Text>
           <Pressable onPress={() => navigation.navigate('TaskList')}>
             <Text className="font-medium text-indigo-600">View all</Text>
           </Pressable>
         </View>
 
         {todayTasks.length === 0 ? (
-          <View className="items-center rounded-xl bg-white p-6">
+          <View className="items-center rounded-xl bg-white dark:bg-gray-800 p-6">
             <Ionicons name="happy-outline" size={32} color="#9ca3af" />
-            <Text className="mt-2 text-center text-gray-500">
+            <Text className="mt-2 text-center text-gray-500 dark:text-gray-400">
               {total === 0 ? 'No tasks yet. Tap + to add your first task.' : 'Nothing scheduled for today.'}
             </Text>
           </View>

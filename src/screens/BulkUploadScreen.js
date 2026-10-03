@@ -26,17 +26,17 @@ function IssueList({ title, items, color }) {
   if (items.length === 0) return null;
   const shown = items.slice(0, 50); // don't render thousands of rows
   return (
-    <View className="mt-4 rounded-xl bg-white p-4">
+    <View className="mt-4 rounded-xl bg-white dark:bg-gray-800 p-4">
       <Text className={`mb-2 font-semibold ${color}`}>
         {title} ({items.length})
       </Text>
       {shown.map((item) => (
-        <View key={item.row} className="mb-2 border-b border-gray-100 pb-2">
-          <Text className="text-sm font-medium text-gray-800">
+        <View key={item.row} className="mb-2 border-b border-gray-100 dark:border-gray-700 pb-2">
+          <Text className="text-sm font-medium text-gray-800 dark:text-gray-200">
             Row {item.row}
             {item.title ? ` - ${item.title}` : ''}
           </Text>
-          <Text className="text-xs text-gray-500">{item.message}</Text>
+          <Text className="text-xs text-gray-500 dark:text-gray-400">{item.message}</Text>
         </View>
       ))}
       {items.length > shown.length && (
@@ -101,9 +101,9 @@ export default function BulkUploadScreen({ navigation }) {
   return (
     <ScrollView className="flex-1 bg-gray-100 dark:bg-gray-900" contentContainerClassName="p-4 pb-10">
       {/* Pick a file */}
-      <View className="rounded-xl bg-white p-5">
-        <Text className="font-semibold text-gray-900">Import tasks from CSV</Text>
-        <Text className="mt-1 text-xs text-gray-500">
+      <View className="rounded-xl bg-white dark:bg-gray-800 p-5">
+        <Text className="font-semibold text-gray-900 dark:text-gray-100">Import tasks from CSV</Text>
+        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           Columns: id, title, description, category, priority, start_date, due_date, status. A header row is optional.
         </Text>
         <Pressable
@@ -120,7 +120,7 @@ export default function BulkUploadScreen({ navigation }) {
 
       {/* Error state */}
       {fileError && (
-        <View className="mt-4 flex-row items-center rounded-xl bg-red-50 dark:bg-red-900 p-4">
+        <View className="mt-4 flex-row items-center rounded-xl bg-red-50 dark:bg-red-500/20 p-4">
           <Ionicons name="alert-circle" size={22} color="#dc2626" />
           <Text className="ml-2 flex-1 text-red-700 dark:text-red-300">{fileError}</Text>
         </View>
@@ -128,11 +128,11 @@ export default function BulkUploadScreen({ navigation }) {
 
       {/* Selected file info */}
       {file && (
-        <View className="mt-4 rounded-xl bg-white p-4">
-          <Text className="font-medium text-gray-900" numberOfLines={1}>
+        <View className="mt-4 rounded-xl bg-white dark:bg-gray-800 p-4">
+          <Text className="font-medium text-gray-900 dark:text-gray-100" numberOfLines={1}>
             {file.name}
           </Text>
-          <Text className="mt-1 text-xs text-gray-500">
+          <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             {formatSize(file.size)}  •  {file.rowCount} rows detected
           </Text>
         </View>
@@ -142,9 +142,9 @@ export default function BulkUploadScreen({ navigation }) {
       {report && (
         <>
           <View className="-mx-1 mt-4 flex-row">
-            <Tile label="Valid" value={report.validTasks.length} bg="bg-green-100 dark:bg-green-900" text="text-green-700 dark:text-green-300" />
-            <Tile label="Invalid" value={report.errors.length} bg="bg-red-100 dark:bg-red-900" text="text-red-700 dark:text-red-300" />
-            <Tile label="Duplicates" value={report.duplicates.length} bg="bg-amber-100 dark:bg-amber-900" text="text-amber-700 dark:text-amber-300" />
+            <Tile label="Valid" value={report.validTasks.length} bg="bg-green-100 dark:bg-green-500/20" text="text-green-700 dark:text-green-300" />
+            <Tile label="Invalid" value={report.errors.length} bg="bg-red-100 dark:bg-red-500/20" text="text-red-700 dark:text-red-300" />
+            <Tile label="Duplicates" value={report.duplicates.length} bg="bg-amber-100 dark:bg-amber-500/20" text="text-amber-700 dark:text-amber-300" />
           </View>
 
           <IssueList title="Invalid rows" items={report.errors} color="text-red-600" />
@@ -168,16 +168,16 @@ export default function BulkUploadScreen({ navigation }) {
 
       {/* Import result */}
       {result && (
-        <View className="mt-4 items-center rounded-xl bg-white p-6">
+        <View className="mt-4 items-center rounded-xl bg-white dark:bg-gray-800 p-6">
           <Ionicons
             name={result.imported > 0 ? 'checkmark-circle' : 'information-circle'}
             size={48}
             color={result.imported > 0 ? '#16a34a' : '#d97706'}
           />
-          <Text className="mt-2 text-lg font-semibold text-gray-900">
+          <Text className="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
             {result.imported > 0 ? 'Import complete' : 'Nothing was imported'}
           </Text>
-          <Text className="mt-2 text-center text-gray-600">
+          <Text className="mt-2 text-center text-gray-600 dark:text-gray-300">
             Imported: {result.imported}{'\n'}
             Skipped duplicates: {result.duplicates}{'\n'}
             Failed (invalid): {result.failed}
