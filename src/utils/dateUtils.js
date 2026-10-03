@@ -20,3 +20,9 @@ export function isTodayTask(task) {
   const today = getTodayString();
   return task.startDate <= today && today <= task.dueDate;
 }
+
+// Overdue = not completed AND the due date is before today.
+// (A task due today is NOT overdue yet.) YYYY-MM-DD strings compare correctly.
+export function isOverdue(task) {
+  return task.status !== 'Completed' && task.dueDate < getTodayString();
+}

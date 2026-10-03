@@ -2,6 +2,8 @@ import { ScrollView, View, Text, Pressable, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTasks } from '../context/TaskContext';
 import PriorityBadge from '../components/PriorityBadge';
+import OverdueBadge from '../components/OverdueBadge';
+import { isOverdue } from '../utils/dateUtils';
 
 // Small helper component used only in this file
 function InfoRow({ label, children }) {
@@ -53,6 +55,11 @@ export default function TaskDetailsScreen({ navigation, route }) {
           <Text className={`text-xs font-medium ${done ? 'text-green-700 dark:text-green-300' : 'text-amber-700 dark:text-amber-300'}`}>
             {task.status}
           </Text>
+          {isOverdue(task) && (
+            <View className="ml-2">
+              <OverdueBadge />
+            </View>
+          )}
         </View>
 
         <InfoRow label="Description">

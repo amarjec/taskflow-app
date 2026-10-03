@@ -1,7 +1,7 @@
 import { ScrollView, View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTasks } from '../context/TaskContext';
-import { isTodayTask } from '../utils/dateUtils';
+import { isTodayTask, isOverdue } from '../utils/dateUtils';
 import StatCard from '../components/StatCard';
 import TaskCard from '../components/TaskCard';
 
@@ -29,6 +29,7 @@ export default function DashboardScreen({ navigation }) {
   const completed = tasks.filter((t) => t.status === 'Completed').length;
   const pending = total - completed;
   const todayTasks = tasks.filter(isTodayTask);
+  const overdueCount = tasks.filter(isOverdue).length;
 
   return (
     <View className="flex-1 bg-gray-100 dark:bg-gray-900">
@@ -40,6 +41,16 @@ export default function DashboardScreen({ navigation }) {
           <StatCard title="Pending" value={pending} icon="time" color="#d97706" bg="bg-amber-100 dark:bg-amber-900" />
           <StatCard title="Today's tasks" value={todayTasks.length} icon="today" color="#0284c7" bg="bg-sky-100 dark:bg-sky-900" />
         </View>
+        {overdueCount > 0 && (
+          <Pressable
+            onPress={() => navigation.navigate('TaskList')}
+            className="mt-3 flex-row items-center rounded-xl bg-red-100 p-3 dark:bg-red-900">
+              <Ionicons name="alert-circle" size={22} color="#dc2626" />
+              <Text className="ml-2 flex-1 text-red-700 dark:text-red-200">
+                {overdueCount} overdue {overdueCount === 1 ? 'task' : 'tasks'}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color="#dc2626" />
+          </Pressable>)}
 
         {/* Bulk upload entry */}
         <Pressable

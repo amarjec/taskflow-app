@@ -1,20 +1,47 @@
 import { useState, useMemo } from 'react';
-import { View, Text, FlatList, TextInput, Pressable, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, FlatList, TextInput, Pressable, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTasks } from '../context/TaskContext';
 import TaskCard from '../components/TaskCard';
 
 const FILTERS = ['All', 'Pending', 'Completed'];
 
+const SORTS = [
+  { key: 'newest', label: 'Newest' },
+  { key: 'due', label: 'Due date' },
+  { key: 'priority', label: 'Priority' },
+  { key: 'title', label: 'A-Z' },
+];
+
+const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
+
+// Returns a sorted COPY (sort() changes the array it is called on, so we copy first)
+function sortTasks(list, sortKey) {
+  const sorted = [...list];
+  if (sortKey === 'due') {
+    sorted.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  } else if (sortKey === 'priority') {
+    // High first; tasks with the same priority go by due date
+    sorted.sort(
+      (a, b) => PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority] || a.dueDate.localeCompare(b.dueDate)
+    );
+  } else if (sortKey === 'title') {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
+  }
+  // 'newest' keeps the stored order (new tasks are added to the front)
+  return sorted;
+}
+
 export default function TaskListScreen({ navigation }) {
   const { tasks, loading, error, toggleComplete, deleteTask } = useTasks();
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
+  const [sortKey, setSortKey] = useState('newest');
 
-  // Recalculate only when tasks, filter or search change
+  // Filter first, then sort. Recalculated only when one of the inputs changes.
   const visibleTasks = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return tasks.filter((t) => {
+    const filtered = tasks.filter((t) => {
       const matchesFilter = filter === 'All' || t.status === filter;
       const matchesSearch =
         !q ||
@@ -23,7 +50,8 @@ export default function TaskListScreen({ navigation }) {
         (t.description || '').toLowerCase().includes(q);
       return matchesFilter && matchesSearch;
     });
-  }, [tasks, filter, search]);
+    return sortTasks(filtered, sortKey);
+  }, [tasks, filter, search, sortKey]);
 
   function confirmDelete(task) {
     Alert.alert('Delete task', `Delete "${task.title}"?`, [
@@ -32,7 +60,6 @@ export default function TaskListScreen({ navigation }) {
     ]);
   }
 
-  // ---- Loading and error states ----
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -43,17 +70,16 @@ export default function TaskListScreen({ navigation }) {
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
+      <View className="flex-1 items-center justify-center bg-gray-100 p-6 dark:bg-gray-900">
         <Text className="text-center text-red-600">{error}</Text>
       </View>
     );
   }
 
-  // ---- Main UI ----
   return (
     <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Search box */}
-      <View className="mx-4 mt-4 flex-row items-center rounded-xl bg-white px-3">
+      <View className="mx-4 mt-4 flex-row items-center rounded-xl bg-white px-3 dark:bg-gray-800">
         <Ionicons name="search" size={18} color="#9ca3af" />
         <TextInput
           className="ml-2 flex-1 py-3 text-gray-900 dark:text-gray-100"
@@ -70,12 +96,41 @@ export default function TaskListScreen({ navigation }) {
           <Pressable
             key={f}
             onPress={() => setFilter(f)}
-            className={`mr-2 rounded-full px-4 py-2 ${filter === f ? 'bg-indigo-600' : 'bg-white'}`}
+            className={`mr-2 rounded-full px-4 py-2 ${filter === f ? 'bg-indigo-600' : 'bg-white dark:bg-gray-800'}`}
           >
-            <Text className={filter === f ? 'font-medium text-white' : 'text-gray-700'}>{f}</Text>
+            <Text className={filter === f ? 'font-medium text-white' : 'text-gray-700 dark:text-gray-300'}>{f}</Text>
           </Pressable>
         ))}
       </View>
+
+      {/* Sort chips. grow-0 stops a horizontal ScrollView from stretching to fill the screen height */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="mb-3 grow-0"
+        contentContainerClassName="items-center px-4"
+      >
+        <Text className="mr-2 text-xs text-gray-500 dark:text-gray-400">Sort by</Text>
+        {SORTS.map((s) => (
+          <Pressable
+            key={s.key}
+            onPress={() => setSortKey(s.key)}
+            className={`mr-2 rounded-full px-3 py-1 ${
+              sortKey === s.key ? 'bg-indigo-100 dark:bg-indigo-900' : 'bg-gray-200 dark:bg-gray-700'
+            }`}
+          >
+            <Text
+              className={`text-xs ${
+                sortKey === s.key
+                  ? 'font-medium text-indigo-700 dark:text-indigo-200'
+                  : 'text-gray-600 dark:text-gray-300'
+              }`}
+            >
+              {s.label}
+            </Text>
+          </Pressable>
+        ))}
+      </ScrollView>
 
       {/* List */}
       <FlatList
@@ -93,7 +148,7 @@ export default function TaskListScreen({ navigation }) {
         ListEmptyComponent={
           <View className="mt-20 items-center">
             <Ionicons name="clipboard-outline" size={48} color="#9ca3af" />
-            <Text className="mt-2 text-gray-500">
+            <Text className="mt-2 text-gray-500 dark:text-gray-400">
               {tasks.length === 0 ? 'No tasks yet. Tap + to add one.' : 'No tasks match your search.'}
             </Text>
           </View>
@@ -103,11 +158,10 @@ export default function TaskListScreen({ navigation }) {
       {/* Floating add button */}
       <Pressable
         onPress={() => navigation.navigate('AddEditTask')}
-        className="absolute bottom-16 right-8 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
+        className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
       >
         <Ionicons name="add" size={30} color="white" />
       </Pressable>
-      
     </View>
   );
 }
