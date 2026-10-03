@@ -63,9 +63,14 @@ export function TaskProvider({ children }) {
     setTasks([]);
   }
 
+  // Adds many tasks at once. Duplicates are already filtered out by csvService.
+  function importTasks(newTasks) {
+    setTasks((prev) => [...newTasks, ...prev]);
+  }
+
   return (
     <TaskContext.Provider
-      value={{ tasks, loading, error, addTask, updateTask, deleteTask, toggleComplete, clearAllTasks }}
+      value={{ tasks, loading, error, addTask, updateTask, deleteTask, toggleComplete, clearAllTasks, importTasks }}
     >
       {children}
     </TaskContext.Provider>
