@@ -4,8 +4,8 @@ A simple task management app built with React Native and Expo. Create, edit, fil
 
 ## Demo
 
-- Screen recording: `link`
-- Android APK: `link`
+- Screen recording: [Watch the demo](https://drive.google.com/drive/folders/1IrJnuOJhCvbPs4FZHUuAbXCeR6as12BY?usp=share_link)
+- Android APK: [Download APK](https://expo.dev/accounts/amarjec/projects/taskflow/builds/29f8099d-ce9f-4d4b-a63f-3c699b39cf5a)
 
 ## Features
 
