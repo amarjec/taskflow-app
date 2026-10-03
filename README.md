@@ -25,7 +25,9 @@ A simple task management app built with React Native and Expo. Create, edit, fil
 - Sorting by newest, due date, priority and title
 - Swipe actions on the task list (swipe right to complete, swipe left to delete)
 - Export tasks to CSV through the system share sheet
+- Calendar-based task filtering
 - Dark mode
+
 
 ## Tech stack
 
@@ -111,8 +113,6 @@ Exported files use the same format (with a header row), so an export can be impo
 
 ## Incomplete features
 
-- Calendar-based task filtering (a listed bonus) is not implemented.
-- There is no date picker. Dates are typed as `YYYY-MM-DD` and validated.
 - There is no category filter on the task list (category is searchable, and shown on each card).
 - No automated tests.
 
