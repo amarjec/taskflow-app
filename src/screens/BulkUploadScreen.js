@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { ScrollView, View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
-import { File } from 'expo-file-system';
+// import { File } from 'expo-file-system';
+import { readTextFile } from '../services/fileService';
 import { useTasks } from '../context/TaskContext';
 import { parseCsv, validateCsvRows } from '../services/csvService';
 
@@ -73,7 +74,8 @@ export default function BulkUploadScreen({ navigation }) {
       }
 
       setBusy(true);
-      const text = await new File(asset.uri).text();
+      // const text = await new File(asset.uri).text();
+      const text = await readTextFile(asset.uri);
       if (!text.trim()) throw new Error('The file is empty.');
 
       const { rows } = parseCsv(text);
