@@ -1,8 +1,10 @@
-import { ScrollView, View, Text, Switch, Pressable, Alert } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, View, Text, Switch, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useTasks } from '../context/TaskContext';
 import { useTheme } from '../context/ThemeContext';
+import { exportTasksCsv } from '../services/exportService';
 
 // A titled group of rows, like the iOS/Android settings screens
 function Section({ title, children }) {
@@ -17,6 +19,18 @@ function Section({ title, children }) {
 export default function SettingsScreen() {
   const { tasks, clearAllTasks } = useTasks();
   const { isDark, setTheme } = useTheme();
+  const [exporting, setExporting] = useState(false);
+
+  async function handleExport() {
+    try {
+      setExporting(true);
+      await exportTasksCsv(tasks);
+    } catch (e) {
+      Alert.alert('Export failed', e.message || 'Something went wrong.');
+    } finally {
+      setExporting(false);
+    }
+  }
 
   function confirmClear() {
     if (tasks.length === 0) {
@@ -56,6 +70,19 @@ export default function SettingsScreen() {
       </Section>
 
       <Section title="Data">
+        <Pressable
+          onPress={handleExport}
+          disabled={exporting}
+          className="flex-row items-center border-b border-gray-100 p-4 dark:border-gray-700"
+        >
+          <Ionicons name="download-outline" size={22} color="#4f46e5" />
+          <View className="ml-3 flex-1">
+            <Text className="text-base text-gray-900 dark:text-gray-100">Export tasks to CSV</Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">Share or save a .csv copy of your tasks</Text>
+          </View>
+          {exporting && <ActivityIndicator color="#4f46e5" />}
+        </Pressable>
+
         <Pressable onPress={confirmClear} className="flex-row items-center p-4">
           <Ionicons name="trash-outline" size={22} color="#ef4444" />
           <View className="ml-3 flex-1">
