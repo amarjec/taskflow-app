@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { View, Text, FlatList, TextInput, Pressable, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTasks } from '../context/TaskContext';
 // import TaskCard from '../components/TaskCard';
 import SwipeableTaskCard from '../components/SwipeableTaskCard';
+import { isOverdue } from '../utils/dateUtils';
 
-const FILTERS = ['All', 'Pending', 'Completed'];
+const FILTERS = ['All', 'Pending', 'Completed', 'Overdue'];
 
 const SORTS = [
   { key: 'newest', label: 'Newest' },
@@ -33,17 +34,22 @@ function sortTasks(list, sortKey) {
   return sorted;
 }
 
-export default function TaskListScreen({ navigation }) {
+export default function TaskListScreen({ navigation, route }) {
   const { tasks, loading, error, toggleComplete, deleteTask } = useTasks();
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState(route.params?.filter ?? 'All');
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState('newest');
+
+  // If the screen is already open and receives a new filter, apply it
+  useEffect(() => {
+    if (route.params?.filter) setFilter(route.params.filter);
+  }, [route.params?.filter]);
 
   // Filter first, then sort. Recalculated only when one of the inputs changes.
   const visibleTasks = useMemo(() => {
     const q = search.trim().toLowerCase();
     const filtered = tasks.filter((t) => {
-      const matchesFilter = filter === 'All' || t.status === filter;
+      const matchesFilter = filter === 'All' || (filter === 'Overdue' ? isOverdue(t) : t.status === filter);
       const matchesSearch =
         !q ||
         t.title.toLowerCase().includes(q) ||

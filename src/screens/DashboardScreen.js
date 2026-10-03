@@ -43,7 +43,7 @@ export default function DashboardScreen({ navigation }) {
         </View>
         {overdueCount > 0 && (
           <Pressable
-            onPress={() => navigation.navigate('TaskList')}
+            onPress={() => navigation.navigate('TaskList', { filter: 'Overdue' })}
             className="mt-3 flex-row items-center rounded-xl bg-red-100 p-3 dark:bg-red-900">
               <Ionicons name="alert-circle" size={22} color="#dc2626" />
               <Text className="ml-2 flex-1 text-red-700 dark:text-red-200">
@@ -96,7 +96,7 @@ export default function DashboardScreen({ navigation }) {
       {/* Floating add button */}
       <Pressable
         onPress={() => navigation.navigate('AddEditTask')}
-        className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
+        className="absolute bottom-16 right-6 h-14 w-14 items-center justify-center rounded-full bg-indigo-600 shadow-lg"
       >
         <Ionicons name="add" size={30} color="white" />
       </Pressable>
